@@ -1,0 +1,14 @@
+# ESP32-S3 N16R8 partition table (16 MB Flash)
+#
+# Offset  Size    Purpose
+# 0x0000  0x8000   Bootloader
+# 0x8000  0x6000   NVS
+# 0xF000  0x1000   PHY init
+# 0x10000 0x600000 Factory app (6 MB - MicroPython + ulab + translate + dict)
+# 0x610000 0x9F0000 VFS (LittleFS/LittleFS, ~10 MB for user files)
+#
+# Name,   Type, SubType,  Offset,    Size,     Flags
+nvs,      data, nvs,      0x9000,    0x6000,
+phy_init, data, phy,      0xf000,    0x1000,
+factory,  app,  factory,  0x10000,   0x600000,
+vfs,      data, spiffs,   0x610000,  0x9F0000,

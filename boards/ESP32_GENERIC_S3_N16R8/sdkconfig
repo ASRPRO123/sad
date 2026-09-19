@@ -1,0 +1,13 @@
+# ESP32-S3 N16R8 - board-specific sdkconfig overrides.
+#
+# Base config (flash QIO 80MHz, Octal PSRAM, BLE, cache, etc.)
+# comes from the boards/sdkconfig.* fragments in the MicroPython tree,
+# listed in mpconfigboard.cmake.  This file only adds N16R8-specific items.
+
+# 16 MB Flash
+CONFIG_ESPTOOLPY_FLASHSIZE_16MB=y
+CONFIG_ESPTOOLPY_FLASHSIZE="16MB"
+
+# Custom partition table (partitions.csv is copied to ports/esp32/ by CI)
+CONFIG_PARTITION_TABLE_CUSTOM=y
+CONFIG_PARTITION_TABLE_CUSTOM_FILENAME="partitions.csv"
