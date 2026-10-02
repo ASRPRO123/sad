@@ -16,7 +16,7 @@ env:
   ULAB_VERSION: 6.12.1          # micropython-ulab tag (NO 'v' prefix - upstream tags are plain)
   IDF_VERSION: v5.5.2           # Must match MicroPython's lockfile (5.5.2), not 5.4.1
   BOARD: ESP32_GENERIC_S3_N16R8
-  MP_JPEG_VERSION: main
+  MP_JPEG_VERSION: master
 
 jobs:
   build:
