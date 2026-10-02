@@ -10,3 +10,6 @@ c_module("$(PORT_DIR)/modules/translate")
 
 # ulab C module (copied from the ulab repo into ports/esp32/modules/ulab by CI)
 c_module("$(PORT_DIR)/modules/ulab")
+
+# jpeg
+c_module("$(PORT_DIR)/modules/jpeg")
