@@ -109,6 +109,15 @@ jobs:
           # No USER_C_MODULES needed - both modules are declared via
           # c_module() in the board's manifest.py (installed above).
           make BOARD="${{ env.BOARD }}" -j3
+          
+      - name: Verify PSRAM in sdkconfig
+        run: |
+          SDK=micropython/ports/esp32/build-${{ env.BOARD }}/sdkconfig
+          echo "=== SPIRAM config ==="
+          grep -E "^CONFIG_SPIRAM" "$SDK" || true
+          grep -q "^CONFIG_SPIRAM=y$"              "$SDK"
+          grep -q "^CONFIG_SPIRAM_MODE_OCT=y$"     "$SDK"
+          grep -q "^CONFIG_SPIRAM_USE_MALLOC=y$"   "$SDK"
 
       - name: List build output
         run: |
