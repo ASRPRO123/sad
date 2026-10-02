@@ -16,6 +16,7 @@ env:
   ULAB_VERSION: 6.12.1          # micropython-ulab tag (NO 'v' prefix - upstream tags are plain)
   IDF_VERSION: v5.5.2           # Must match MicroPython's lockfile (5.5.2), not 5.4.1
   BOARD: ESP32_GENERIC_S3_N16R8
+  MP_JPEG_VERSION: main
 
 jobs:
   build:
@@ -42,7 +43,14 @@ jobs:
           repository: v923z/micropython-ulab
           ref: ${{ env.ULAB_VERSION }}
           path: ulab
-
+          
+      - name: Checkout mp_jpeg
+        uses: action/checkout@v4
+        with:
+          repository: cnadler86/mp_jpeg
+          ref: ${{ env.MP_JPEG_VERSION }}
+          path: mp_jpeg
+          
       - name: Rebuild dictionary header from CSV
         working-directory: project
         run: python3 tools/build_dict.py dict/sample.csv modules/translate/dict_data.h
@@ -84,6 +92,13 @@ jobs:
           mkdir -p micropython/ports/esp32/modules/ulab
           cp -rv ulab/code/* micropython/ports/esp32/modules/ulab/
 
+          # 5. JPEG C modules -> modules/jpeg
+          mkdir -p micropython/ports/esp32/modules/jpeg
+          cp -rv mp_jpeg/* micropython/ports/esp32/modules/jpeg/
+          # main list
+          grep -q esp_new_jpeg micropython/ports/esp32/main/idf_component.yml || \
+            echo '  espressif/esp_new_jpeg: "^1.0.0"' >> micropython/ports/esp32/main/idf_component.yml
+          
       - name: Build firmware
         run: |
           # shellcheck disable=SC1091
@@ -109,3 +124,4 @@ jobs:
             micropython/ports/esp32/build-${{ env.BOARD }}/**/*.bin
           if-no-files-found: error
           retention-days: 30
+
