@@ -45,7 +45,7 @@ jobs:
           path: ulab
           
       - name: Checkout mp_jpeg
-        uses: action/checkout@v4
+        uses: actions/checkout@v4
         with:
           repository: cnadler86/mp_jpeg
           ref: ${{ env.MP_JPEG_VERSION }}
