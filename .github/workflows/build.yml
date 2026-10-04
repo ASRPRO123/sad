@@ -17,6 +17,7 @@ env:
   IDF_VERSION: v5.5.2           # Must match MicroPython's lockfile (5.5.2), not 5.4.1
   BOARD: ESP32_GENERIC_S3_N16R8
   MP_JPEG_VERSION: master
+  ST7789_VERSION: master
 
 jobs:
   build:
@@ -50,6 +51,13 @@ jobs:
           repository: cnadler86/mp_jpeg
           ref: ${{ env.MP_JPEG_VERSION }}
           path: mp_jpeg
+
+      - name: Checkout st7789_mpy
+        uses: actions/checkout@v4
+        with:
+          repository: russhughes/st7789_mpy
+          ref: ${{ env.ST7789_VERSION }}
+          path: st7789_mpy
           
       - name: Rebuild dictionary header from CSV
         working-directory: project
@@ -98,6 +106,10 @@ jobs:
           # main list
           grep -q esp_new_jpeg micropython/ports/esp32/main/idf_component.yml || \
             echo '  espressif/esp_new_jpeg: "^1.0.0"' >> micropython/ports/esp32/main/idf_component.yml
+
+          # 6. st7789_mpy
+          mkdir -p micropython/ports/esp32/modules/st7789
+          cp -rv st7789_mpy/st7789/* micropython/ports/esp32/modules/st7789/
           
       - name: Build firmware
         run: |
