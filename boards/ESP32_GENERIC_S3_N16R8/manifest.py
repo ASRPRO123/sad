@@ -13,3 +13,6 @@ c_module("$(PORT_DIR)/modules/ulab")
 
 # jpeg
 c_module("$(PORT_DIR)/modules/jpeg")
+
+#st7789
+c_module("$(PORT_DIR)/modules/st7789")
